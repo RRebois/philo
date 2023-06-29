@@ -1,0 +1,53 @@
+# VARIABLES
+NAME		=	philo
+
+CC			=	cc
+
+RM			=	rm -rf
+
+FLAGS		=	-Wall -Wextra -Werror
+
+HEADER		=	philo.h
+
+
+# DIRECTORIES
+D_HEADER	=	incs/
+
+D_SRCS		=	SRCS/
+
+D_OBJS		=	objs/
+
+
+# FILES SO_LONG
+LST_SRCS		=	main.c
+
+LST_OBJS	=	$(LST_SRCS:.c=.o)
+
+SRCS		=	$(addprefix $(D_SRCS), $(LST_SRCS))
+
+INCS		=	$(addprefix $(D_HEADER), $(HEADER))
+
+OBJS		=	$(addprefix $(D_OBJS), $(LST_OBJS))
+
+
+# RULES
+all		:	$(NAME)
+
+$(NAME)	:	$(OBJS)
+			$(CC) $(OBJS) -o $(NAME)
+
+$(D_OBJS)%.o	:	$(D_SRCS)%.c $(INCS) Makefile
+					mkdir -p $(D_OBJS)
+					$(CC) $(FLAGS) -I $(D_HEADER) -c $< -o $@
+
+clean	:
+			$(RM) $(OBJS)
+			$(RM) $(D_OBJS)
+
+fclean	:
+			$(MAKE) clean
+			$(RM) $(NAME)
+
+re		:	fclean all
+
+.PHONY	:	all clean fclean re lib bonus
