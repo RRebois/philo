@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/06/29 12:12:51 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/06/29 14:06:29 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@ time_to_die time_to_eat time_to_sleep \
 
 typedef struct s_philo
 {
-
+	int				number;
+	int				t_eat;
+	int				t_think;
+	int				t_sleep;
+	int				meals;
+	pthread_mutex_t	*fork;
 }				t_philo;
 
 enum errors
