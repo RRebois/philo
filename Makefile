@@ -19,7 +19,10 @@ D_OBJS		=	objs/
 
 
 # FILES SO_LONG
-LST_SRCS		=	main.c
+LST_SRCS		=	main.c \
+					data.c \
+					utils.c \
+					routine.c
 
 LST_OBJS	=	$(LST_SRCS:.c=.o)
 
@@ -34,7 +37,7 @@ OBJS		=	$(addprefix $(D_OBJS), $(LST_OBJS))
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
-			$(CC) $(OBJS) -o $(NAME)
+			$(CC) $(OBJS) -pthread -o $(NAME)
 
 $(D_OBJS)%.o	:	$(D_SRCS)%.c $(INCS) Makefile
 					mkdir -p $(D_OBJS)

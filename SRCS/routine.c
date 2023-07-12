@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/29 11:47:52 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/12 08:09:31 by rrebois          ###   ########lyon.fr   */
+/*   Created: 2023/07/12 08:56:02 by rrebois           #+#    #+#             */
+/*   Updated: 2023/07/12 10:29:01 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+void	*routine(void *philo)
 {
-	if (ac != 5 && ac != 6)
-		return (printf(PHILO_ERROR), ARG_FAILURE);
-	init_data(ac, av);
+	struct timeval	cur_time;
+
+	printf("%d\n", ((t_philo *)philo)->start_time);
+	return (NULL);
 }
