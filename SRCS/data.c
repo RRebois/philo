@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/12 10:38:45 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 12:07:41 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	init_data(int ac, char **av)
 {
-	int		i;
 	t_data	data;
 
 	ft_bzero(&data, sizeof(t_data));
@@ -27,23 +26,40 @@ int	init_data(int ac, char **av)
 	data.philos = malloc(sizeof(t_philo) * data.philo_count);
 	if (data.philos == NULL)
 		return (-1); // a changer
+	prepare_threads(&data);
+	free(data.philos);
+	return (0);
+}
+
+void	init_philo_data(t_data *data, int i)
+{
+	ft_bzero(&data->philos[i], sizeof(t_philo));
+	data->philos[i].start_time = get_time();
+	data->philos[i].number = i + 1;
+	data->philos[i].data = data;
+	data->philos[i].max_meals = data->meals;
+}
+
+int	prepare_threads(t_data *data)
+{
+	int	i;
+
+	init_fork_mutex(data);
 	i = 0;
-	while (i < ac)
+	while (i < data->philo_count)
 	{
-		if (pthread_create(&data.philos[i].th, NULL, &routine, &data.philos[i]) != 0)
+		init_philo_data(data, i);
+		if (pthread_create(&data->philos[i].th, NULL, &routine, &data->philos[i]) != 0)
 			return (-1);
-		gettimeofday(&data.philos[i].time, NULL);
-		data.philos[i].start_time = convert_time(data.philos[i].time);
-		data.philos[i].number = i + 1;
-		pthread_mutex_init(&data.philos[i].fork, NULL);
 		i++;
 	}
 	i = 0;
-	while (i < ac)
+	while (i < data->philo_count)
 	{
-		if (pthread_join(data.philos[i].th, NULL) != 0)
+		if (pthread_join(data->philos[i].th, NULL) != 0)
 			return (-1);
 		i++;
 	}
+	destroy_fork_mutex(data);
 	return (0);
 }

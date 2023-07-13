@@ -22,7 +22,10 @@ D_OBJS		=	objs/
 LST_SRCS		=	main.c \
 					data.c \
 					utils.c \
-					routine.c
+					routine.c \
+					time.c \
+					death.c \
+					mutex.c
 
 LST_OBJS	=	$(LST_SRCS:.c=.o)
 

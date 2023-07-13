@@ -6,18 +6,20 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:12:37 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/12 09:43:35 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 13:12:41 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	convert_time(struct timeval time)
+void	solo_philo(t_philo *philo)
 {
-	int	new_time;
-
-	new_time = time.tv_sec * 1000 + time.tv_usec / 1000;
-	return (new_time);
+	pthread_mutex_lock(&philo->fork);
+	printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
+	ft_usleep(philo->data->t_die);
+	pthread_mutex_unlock(&philo->fork);
+	check_death(philo);
+	return ;
 }
 
 static void	ft_check(long value, long sign)

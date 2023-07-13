@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/12 10:22:28 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 11:58:19 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,28 @@ time_to_die time_to_eat time_to_sleep \
 typedef struct s_philo
 {
 	int				number;
-	struct timeval	time;
-	int				start_time;
+	long long		start_time;
+	int				last_meal;
 	pthread_t		th;
 	int				meals_eaten;
-	pthread_mutex_t	*fork;
+	int				max_meals;
+	pthread_mutex_t	fork;
 	struct s_data	*data;
 }				t_philo;
 
 typedef struct s_data
 {
-	int		philo_count;
-	int		t_eat;
-	int		t_sleep;
-	int		t_die;
-	int		meals;
-	t_philo	*philos;
+	int				philo_count;
+	int				t_eat;
+	int				t_sleep;
+	int				t_die;
+	int				meals;
+	t_philo			*philos;
+	int				food_count;
+	pthread_mutex_t	food;
+	pthread_mutex_t	print;
+	pthread_mutex_t	death;
+	int				stop;
 }				t_data;
 
 enum errors
@@ -51,14 +57,32 @@ enum errors
 
 
 /*	data.c	*/
-int		init_data(int ac, char **av);
+int			init_data(int ac, char **av);
+int			prepare_threads(t_data *data);
+void		init_philo_data(t_data *data, int i);
 
 /*	utils.c	*/
-int		ft_atoi(const char *str);
-void	ft_bzero(void *s, size_t n);
-int		convert_time(struct timeval time);
+void		solo_philo(t_philo *philo);
+void		ft_bzero(void *s, size_t n);
+int			ft_atoi(const char *str);
 
 /*	routine.c	*/
-void	*routine(void *philo);
+void		*routine(void *philo_struct);
+void		philo_eat(t_philo *philo);
+void		philo_sleep(t_philo *philo);
+int			mate_number(t_philo *philo);
+int			check_meals(t_philo *philo);
+
+/*	time.c	*/
+long long	get_time(void);
+void		ft_usleep(int i);
+int			actual_time(t_philo *philo);
+
+/*	death.c	*/
+int			check_death(t_philo *philo);
+
+/*	mutex.c	*/
+void		init_fork_mutex(t_data *data);
+void		destroy_fork_mutex(t_data *data);
 
 #endif
