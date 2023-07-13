@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:13:00 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 16:29:55 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	philo_sleep(t_philo *philo)
 	if (philo->data->stop == 0)
 		printf("%d %d is sleeping\n", actual_time(philo), philo->number);
 	pthread_mutex_unlock(&philo->data->print);
-	ft_usleep(philo->data->t_sleep);
+	ft_usleep(philo->data->t_sleep, philo);
 	philo_think(philo);
 }
 
@@ -45,7 +45,7 @@ void	philo_eat(t_philo *philo)
 		pthread_mutex_unlock(&philo->data->print);
 		philo->last_meal = actual_time(philo);
 		philo->meals_eaten++;
-		ft_usleep(philo->data->t_eat);
+		ft_usleep(philo->data->t_eat, philo);
 		pthread_mutex_unlock(&philo->data->philos[i].fork);
 		pthread_mutex_unlock(&philo->fork);
 	}

@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 15:57:38 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 16:29:17 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		philo_sleep(t_philo *philo);
 
 /*	time.c	*/
 long long	get_time(void);
-void		ft_usleep(int i);
+void		ft_usleep(int i, t_philo *philo);
 int			actual_time(t_philo *philo);
 
 /*	death.c	*/
