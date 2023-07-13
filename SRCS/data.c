@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 12:07:41 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 16:00:35 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	init_data(int ac, char **av)
 void	init_philo_data(t_data *data, int i)
 {
 	ft_bzero(&data->philos[i], sizeof(t_philo));
-	data->philos[i].start_time = get_time();
 	data->philos[i].number = i + 1;
 	data->philos[i].data = data;
 	data->philos[i].max_meals = data->meals;
@@ -53,12 +52,15 @@ int	prepare_threads(t_data *data)
 			return (-1);
 		i++;
 	}
-	i = 0;
-	while (i < data->philo_count)
+	pthread_mutex_lock(&data->start);
+	data->go = 1;
+	// data->philos[i].start_time = get_time();
+	pthread_mutex_unlock(&data->start);
+	while (i > 0)
 	{
-		if (pthread_join(data->philos[i].th, NULL) != 0)
+		if (pthread_join(data->philos[i - 1].th, NULL) != 0)
 			return (-1);
-		i++;
+		i--;
 	}
 	destroy_fork_mutex(data);
 	return (0);

@@ -25,7 +25,8 @@ LST_SRCS		=	main.c \
 					routine.c \
 					time.c \
 					death.c \
-					mutex.c
+					mutex.c \
+					actions.c
 
 LST_OBJS	=	$(LST_SRCS:.c=.o)
 

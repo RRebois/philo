@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 11:58:19 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 15:57:38 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_data
 	int				meals;
 	t_philo			*philos;
 	int				food_count;
+	pthread_mutex_t	start;
+	int				go;
 	pthread_mutex_t	food;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
@@ -54,7 +56,6 @@ enum errors
 {
 	ARG_FAILURE = 1
 };
-
 
 /*	data.c	*/
 int			init_data(int ac, char **av);
@@ -68,10 +69,14 @@ int			ft_atoi(const char *str);
 
 /*	routine.c	*/
 void		*routine(void *philo_struct);
-void		philo_eat(t_philo *philo);
-void		philo_sleep(t_philo *philo);
+void		routine_loop(t_philo *philo);
 int			mate_number(t_philo *philo);
 int			check_meals(t_philo *philo);
+
+/*	actions.c	*/
+void		philo_think(t_philo *philo);
+void		philo_eat(t_philo *philo);
+void		philo_sleep(t_philo *philo);
 
 /*	time.c	*/
 long long	get_time(void);
