@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:00:35 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 17:00:44 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	prepare_threads(t_data *data)
 	}
 	pthread_mutex_lock(&data->start);
 	data->go = 1;
-	// data->philos[i].start_time = get_time();
 	pthread_mutex_unlock(&data->start);
 	while (i > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:47:52 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 11:34:24 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/13 16:50:41 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int	main(int ac, char **av)
 {
 	if (ac != 5 && ac != 6)
 		return (printf(PHILO_ERROR), ARG_FAILURE);
-	init_data(ac, av);
+	init_data(ac, av);// checker si args que digits
 	return (0);
 }
