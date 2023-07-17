@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:12:37 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:30:05 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 09:46:21 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	solo_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork);
 	printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
-	ft_usleep(philo->data->t_die, philo);
+	ft_usleep(philo->data->t_die);
 	pthread_mutex_unlock(&philo->fork);
-	check_death(philo);
+	// check_death(philo);
 	return ;
 }
 

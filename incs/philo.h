@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:29:17 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 10:20:52 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ time_to_die time_to_eat time_to_sleep \
 typedef struct s_philo
 {
 	int				number;
-	long long		start_time;
 	int				last_meal;
 	pthread_t		th;
 	int				meals_eaten;
@@ -45,7 +44,7 @@ typedef struct s_data
 	t_philo			*philos;
 	int				food_count;
 	pthread_mutex_t	start;
-	int				go;
+	long long		go;
 	pthread_mutex_t	food;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
@@ -70,8 +69,8 @@ int			ft_atoi(const char *str);
 /*	routine.c	*/
 void		*routine(void *philo_struct);
 void		routine_loop(t_philo *philo);
+void		check_meals(t_philo *philo);
 int			mate_number(t_philo *philo);
-int			check_meals(t_philo *philo);
 
 /*	actions.c	*/
 void		philo_think(t_philo *philo);
@@ -80,11 +79,11 @@ void		philo_sleep(t_philo *philo);
 
 /*	time.c	*/
 long long	get_time(void);
-void		ft_usleep(int i, t_philo *philo);
+void		ft_usleep(int i);
 int			actual_time(t_philo *philo);
 
 /*	death.c	*/
-int			check_death(t_philo *philo);
+void		check_death(t_data *data);
 
 /*	mutex.c	*/
 void		init_fork_mutex(t_data *data);
