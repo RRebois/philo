@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:29:17 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 09:05:08 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_philo
 	long long		start_time;
 	int				last_meal;
 	pthread_t		th;
+	pthread_t		death;
 	int				meals_eaten;
 	int				max_meals;
 	pthread_mutex_t	fork;
@@ -84,7 +85,7 @@ void		ft_usleep(int i, t_philo *philo);
 int			actual_time(t_philo *philo);
 
 /*	death.c	*/
-int			check_death(t_philo *philo);
+void	*check_death(void *philo_struct);
 
 /*	mutex.c	*/
 void		init_fork_mutex(t_data *data);

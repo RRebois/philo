@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:05:13 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:29:25 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 09:05:25 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ long long	get_time(void)
 
 void	ft_usleep(int i, t_philo *philo)
 {
-	long long	now;
+	long long	now;(void)philo;
 
 	now = get_time();
 	while (get_time() - now < i)
 	{
 		usleep(i / 10);
-		if (check_death(philo) == 1)
-			break ;
 	}
 
 }
