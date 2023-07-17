@@ -6,11 +6,11 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:42:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 15:57:05 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 15:24:56 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
 
 void	init_fork_mutex(t_data *data)
 {
@@ -24,6 +24,7 @@ void	init_fork_mutex(t_data *data)
 	while (i < data->philo_count)
 	{
 		pthread_mutex_init(&data->philos[i].fork, NULL);
+		pthread_mutex_init(&data->philos[i].philo_meal, NULL);
 		i++;
 	}
 }
@@ -40,6 +41,7 @@ void	destroy_fork_mutex(t_data *data)
 	while (i < data->philo_count)
 	{
 		pthread_mutex_destroy(&data->philos[i].fork);
+		pthread_mutex_destroy(&data->philos[i].philo_meal);
 		i++;
 	}
 }

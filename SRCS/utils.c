@@ -6,18 +6,25 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:12:37 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 09:46:21 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 14:49:37 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
+
+int	ft_isdigit(int c)
+{
+	if ((c >= 48 && c <= 57) || c == 45 || c == 43)
+		return (1);
+	return (0);
+}
 
 void	solo_philo(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->fork);
+	// pthread_mutex_lock(&philo->fork);
 	printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
 	ft_usleep(philo->data->t_die);
-	pthread_mutex_unlock(&philo->fork);
+	// pthread_mutex_unlock(&philo->fork);
 	// check_death(philo);
 	return ;
 }

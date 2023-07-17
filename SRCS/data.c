@@ -6,11 +6,11 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 09:56:03 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 15:36:55 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
 
 int	init_data(int ac, char **av)
 {
@@ -21,11 +21,12 @@ int	init_data(int ac, char **av)
 	data.t_die = ft_atoi(av[2]);
 	data.t_eat = ft_atoi(av[3]);
 	data.t_sleep = ft_atoi(av[4]);
+	data.go = -1;
 	if (ac == 6)
 		data.meals = ft_atoi(av[5]);
 	data.philos = malloc(sizeof(t_philo) * data.philo_count);
 	if (data.philos == NULL)
-		return (-1); // a changer
+		return (-1);
 	prepare_threads(&data);
 	free(data.philos);
 	return (0);
@@ -36,6 +37,7 @@ void	init_philo_data(t_data *data, int i)
 	ft_bzero(&data->philos[i], sizeof(t_philo));
 	data->philos[i].number = i + 1;
 	data->philos[i].data = data;
+	data->philos[i].pdie = data->t_die;
 	data->philos[i].max_meals = data->meals;
 }
 
@@ -54,7 +56,6 @@ int	prepare_threads(t_data *data)
 	}
 	pthread_mutex_lock(&data->start);
 	data->go = get_time();
-	// data->philos[i].start_time = get_time();
 	pthread_mutex_unlock(&data->start);
 	while (data->stop == 0)
 		check_death(data);

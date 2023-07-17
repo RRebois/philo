@@ -5,7 +5,7 @@ CC			=	cc
 
 RM			=	rm -rf
 
-FLAGS		=	-Wall -Wextra -Werror
+FLAGS		=	-Wall -Wextra -Werror -pthread -O2 -g -fsanitize=thread
 
 HEADER		=	philo.h
 
@@ -26,7 +26,8 @@ LST_SRCS		=	main.c \
 					time.c \
 					death.c \
 					mutex.c \
-					actions.c
+					actions.c \
+					error.c
 
 LST_OBJS	=	$(LST_SRCS:.c=.o)
 
@@ -41,7 +42,7 @@ OBJS		=	$(addprefix $(D_OBJS), $(LST_OBJS))
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
-			$(CC) $(OBJS) -pthread -o $(NAME)
+			$(CC) $(OBJS) $(FLAGS) -o $(NAME)
 
 $(D_OBJS)%.o	:	$(D_SRCS)%.c $(INCS) Makefile
 					mkdir -p $(D_OBJS)

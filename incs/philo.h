@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 10:20:52 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 16:09:54 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ typedef struct s_philo
 	pthread_t		th;
 	int				meals_eaten;
 	int				max_meals;
+	pthread_mutex_t	philo_meal;
 	pthread_mutex_t	fork;
+	int				pdie;
+	int				end;
 	struct s_data	*data;
 }				t_philo;
 
@@ -53,7 +56,9 @@ typedef struct s_data
 
 enum errors
 {
-	ARG_FAILURE = 1
+	SUCCESS = 0,
+	ARG_FAILURE = 1,
+	INVALID_ARG = 2
 };
 
 /*	data.c	*/
@@ -65,6 +70,7 @@ void		init_philo_data(t_data *data, int i);
 void		solo_philo(t_philo *philo);
 void		ft_bzero(void *s, size_t n);
 int			ft_atoi(const char *str);
+int			ft_isdigit(int c);
 
 /*	routine.c	*/
 void		*routine(void *philo_struct);
@@ -73,9 +79,7 @@ void		check_meals(t_philo *philo);
 int			mate_number(t_philo *philo);
 
 /*	actions.c	*/
-void		philo_think(t_philo *philo);
-void		philo_eat(t_philo *philo);
-void		philo_sleep(t_philo *philo);
+void	philo_grab_fork(t_philo *philo);
 
 /*	time.c	*/
 long long	get_time(void);
@@ -88,5 +92,8 @@ void		check_death(t_data *data);
 /*	mutex.c	*/
 void		init_fork_mutex(t_data *data);
 void		destroy_fork_mutex(t_data *data);
+
+/*	error.c	*/
+int			error_check(int ac, char **av);
 
 #endif
