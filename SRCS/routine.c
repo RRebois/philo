@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 07:50:38 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 16:10:16 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 16:49:58 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	*routine(void *philo_struct)
 		return (NULL);
 	}
 	if (philo->number % 2 == 0)
-		usleep(500);
+		usleep(1);
 	while (1)
 	{
-		pthread_mutex_lock(&philo->philo_meal);
+		// pthread_mutex_lock(&philo->philo_meal);
 		if (philo->end != 0)
-			return (pthread_mutex_unlock(&philo->philo_meal), NULL);
-		pthread_mutex_unlock(&philo->philo_meal);
+			return (NULL);
+		// pthread_mutex_unlock(&philo->philo_meal);
 		philo_think(philo);
 		philo_grab_fork(philo);
 	}

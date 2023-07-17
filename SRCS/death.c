@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:41 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 15:25:48 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 16:46:15 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	check_death(t_data *data)
 		pthread_mutex_lock(&data->philos[i].philo_meal);
 		if (actual_time(&data->philos[i]) - data->philos[i].last_meal >= data->philos[i].pdie)
 		{
+			pthread_mutex_unlock(&data->philos[i].philo_meal);
 			pthread_mutex_lock(&data->death);
 			pthread_mutex_lock(&data->print);
 			if (data->stop == 0)
@@ -41,7 +42,6 @@ void	check_death(t_data *data)
 				j++;
 			}
 		}
-		pthread_mutex_unlock(&data->philos[i].philo_meal);
 		i++;
 	}
 }
