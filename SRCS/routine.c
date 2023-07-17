@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: aviscogl <aviscogl@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 07:50:38 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:16:19 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 22:31:09 by aviscogl         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
 
 int	check_meals(t_philo *philo)
 {
@@ -38,9 +38,6 @@ void	*routine(void *philo_struct)
 	t_philo	*philo;
 
 	philo = (t_philo *)philo_struct;
-	while (philo->data->go != 1)
-		continue ;
-	philo->start_time = get_time();
 	if (philo->data->philo_count == 1)
 	{
 		solo_philo(philo);
@@ -48,13 +45,17 @@ void	*routine(void *philo_struct)
 	}
 
 	if (philo->number % 2 == 0)
-		usleep(500);
+		usleep(philo->data->t_eat / 10);
 
-	while (check_death(philo) != 1)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->data->death);
+		if (philo->data->stop == 1)
+			return (pthread_mutex_unlock(&philo->data->death), NULL);
+		pthread_mutex_unlock(&philo->data->death);
 		philo_think(philo);
-		if (check_death(philo) == 0)
-			philo_eat(philo);
+		grab_forks(philo);
+		// philo_eat(philo);
 		// if (check_meals(philo) == 1)
 		// 	return (NULL);
 	}

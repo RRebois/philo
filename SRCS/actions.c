@@ -3,31 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: aviscogl <aviscogl@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/13 16:29:55 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/17 22:29:45 by aviscogl         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
 
 void	philo_think(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->print);
+	pthread_mutex_lock(&philo->data->deat);
 	if (philo->data->stop == 0)
+	{
+		pthread_mutex_unlock(&philo->data->death);
+		pthread_mutex_lock(&philo->data->print);
 		printf("%d %d is thinking\n", actual_time(philo), philo->number);
-	pthread_mutex_unlock(&philo->data->print);
+		pthread_mutex_unlock(&philo->data->print);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->death);
 }
 
 void	philo_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->print);
+	pthread_mutex_lock(&philo->data->deat);
 	if (philo->data->stop == 0)
+	{
+		pthread_mutex_lock(&philo->data->print);
 		printf("%d %d is sleeping\n", actual_time(philo), philo->number);
-	pthread_mutex_unlock(&philo->data->print);
+		pthread_mutex_unlock(&philo->data->print);
+	}
 	ft_usleep(philo->data->t_sleep, philo);
-	philo_think(philo);
+	pthread_mutex_unlock(&philo->data->death);
 }
 
 void	philo_eat(t_philo *philo)
