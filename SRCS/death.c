@@ -6,11 +6,11 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:41 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 10:06:11 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 07:56:39 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
 
 void	check_death(t_data *data)
 {

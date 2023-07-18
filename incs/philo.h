@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 10:20:52 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 07:56:12 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ time_to_die time_to_eat time_to_sleep \
 typedef struct s_philo
 {
 	int				number;
-	int				last_meal;
-	pthread_t		th;
 	int				meals_eaten;
 	int				max_meals;
+	int				last_meal;
+	long long		start_time;
+	pthread_t		th;
 	pthread_mutex_t	fork;
 	struct s_data	*data;
 }				t_philo;
@@ -43,23 +44,30 @@ typedef struct s_data
 	int				meals;
 	t_philo			*philos;
 	int				food_count;
+	int				go;
+	int				stop;
 	pthread_mutex_t	start;
-	long long		go;
 	pthread_mutex_t	food;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
-	int				stop;
 }				t_data;
 
 enum errors
 {
-	ARG_FAILURE = 1
+	SUCCESS = 0,
+	ARG_ERROR = 1,
+	ERR_INIT_DATA = 2,
+	MALLOC_ERR = 3,
+	TH_ERR = 4,
+	TH_CRT = 5,
+	TH_JN = 6
 };
 
 /*	data.c	*/
-int			init_data(int ac, char **av);
+int			init_data(char **av, t_data *data);
+int	set_data(char **av, t_data *data);
 int			prepare_threads(t_data *data);
-void		init_philo_data(t_data *data, int i);
+void		set_philo_data(t_data *data, int i, long long time);
 
 /*	utils.c	*/
 void		solo_philo(t_philo *philo);
@@ -86,7 +94,7 @@ int			actual_time(t_philo *philo);
 void		check_death(t_data *data);
 
 /*	mutex.c	*/
-void		init_fork_mutex(t_data *data);
-void		destroy_fork_mutex(t_data *data);
+void		init_data_mutex(t_data *data);
+void		destroy_data_mutex(t_data *data);
 
 #endif

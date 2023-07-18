@@ -6,11 +6,11 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:05:13 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/17 10:05:16 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 07:56:50 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../incs/philo.h"
 
 long long	get_time(void)
 {
