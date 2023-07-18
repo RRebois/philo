@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 10:03:11 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 13:35:53 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_philo
 	int				max_meals;
 	int				last_meal;
 	long long		start_time;
+	int				p_die;
 	pthread_t		th;
 	pthread_mutex_t	fork_l;
 	pthread_mutex_t	*fork_r;
@@ -47,10 +48,11 @@ typedef struct s_data
 	int				food_count;
 	int				go;
 	int				stop;
-	pthread_mutex_t	start;
-	pthread_mutex_t	food;
-	pthread_mutex_t	print;
-	pthread_mutex_t	death;
+	// pthread_mutex_t	start;
+	pthread_mutex_t	check;
+	// pthread_mutex_t	food;
+	// pthread_mutex_t	print;
+	// pthread_mutex_t	death;
 }				t_data;
 
 enum errors
@@ -95,7 +97,7 @@ int			actual_time(t_philo *philo);
 
 /*	death.c	*/
 void		check_death(t_data *data);
-
+void	death_loop(t_data *data);
 /*	mutex.c	*/
 void		init_data_mutex(t_data *data);
 void		destroy_data_mutex(t_data *data);

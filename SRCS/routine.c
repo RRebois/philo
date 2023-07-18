@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 07:50:38 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 10:03:58 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 13:41:05 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 void	check_meals(t_philo *philo)
 {
-	if (philo->max_meals <= 0)
+	pthread_mutex_lock(&philo->data->check);
+	if (philo->max_meals <= 0 || philo->data->food_count >= philo->data->philo_count)
+	{
+		pthread_mutex_unlock(&philo->data->check);
 		return ;
+	}
+
 	if (philo->meals_eaten == philo->max_meals)
 	{
-		pthread_mutex_lock(&philo->data->food);
 		philo->data->food_count++;
 		philo->meals_eaten++;
-		pthread_mutex_unlock(&philo->data->food);
 	}
-	pthread_mutex_lock(&philo->data->death);
 	if (philo->data->food_count == philo->data->philo_count)
 		philo->data->stop = 1;
-	pthread_mutex_unlock(&philo->data->death);
+	pthread_mutex_unlock(&philo->data->check);
 }
 
 void	*routine(void *philo_struct)
@@ -41,13 +43,12 @@ void	*routine(void *philo_struct)
 	}
 	if (philo->number % 2 == 0)
 		usleep(philo->data->t_eat / 10);
-
 	while (1)
 	{
-		pthread_mutex_lock(&philo->data->death);
+		pthread_mutex_lock(&philo->data->check);
 		if (philo->data->stop == 1)
-			return (pthread_mutex_unlock(&philo->data->death), NULL);
-		pthread_mutex_unlock(&philo->data->death);
+			return (pthread_mutex_unlock(&philo->data->check), NULL);
+		pthread_mutex_unlock(&philo->data->check);
 		philo_think(philo);
 		philo_eat(philo);
 	}

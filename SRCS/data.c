@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 09:54:18 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 13:41:26 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	set_data(char **av, t_data *data)
 void	set_philo_data(t_data *data, int i, long long time)
 {
 	data->philos[i].number = i + 1;
+	data->philos[i].p_die = data->t_die;
 	data->philos[i].data = data;
 	data->philos[i].max_meals = data->meals;
 	data->philos[i].start_time = time;
@@ -94,10 +95,8 @@ int	philo_init(t_data *data)
 			return (TH_CRT);
 		i++;
 	}
-	while (data->stop == 0)
-		check_death(data);
+	death_loop(data);
 	i = 0;
-
 	while (i < data->philo_count)
 	{
 		if (pthread_join(data->philos[i].th, NULL) != 0)
