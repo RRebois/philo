@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:41 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 14:32:45 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 15:10:42 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	death_loop(t_data *data)
 		check_death(data);
 		pthread_mutex_lock(&data->check);
 		i = data->stop;
-printf("i=%d\n", i);
+// printf("i=%d\n", i);
 		pthread_mutex_unlock(&data->check);
 		if (i == 1)
 			return ;
@@ -79,7 +79,7 @@ void	check_death(t_data *data)
 			if (data->stop == 0)
 				printf("%d %d died\n", actual_time(&data->philos[i]), data->philos[i].number);
 			data->stop = 1;
-printf("ii=%d\n", data->stop);
+// printf("ii=%d\n", data->stop);
 			pthread_mutex_unlock(&data->check);
 			return ;
 		}

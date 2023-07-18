@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 15:04:36 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 15:16:23 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	philo_eat(t_philo *philo)
 	philo->last_meal = actual_time(philo);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->check);
-
+	ft_usleep(philo->data->t_eat);
 	pthread_mutex_unlock(&philo->fork_l);
-	pthread_mutex_unlock(philo->fork_r);ft_usleep(philo->data->t_eat);
+	pthread_mutex_unlock(philo->fork_r);
 	// if (philo->number % 2 == 0)
 	// {
 	// 	pthread_mutex_unlock(&philo->fork_l);
