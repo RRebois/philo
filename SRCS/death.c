@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:41 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 14:31:42 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 14:32:45 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	death_loop(t_data *data)
 	pthread_mutex_lock(&data->check);
 	i = data->stop;
 	pthread_mutex_unlock(&data->check);
-	while (data->stop == 0)
+	while (i == 0)
 	{
 		check_death(data);
 		pthread_mutex_lock(&data->check);
