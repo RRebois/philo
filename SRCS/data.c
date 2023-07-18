@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 13:41:26 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 14:01:54 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ int	philo_init(t_data *data)
 		i++;
 	}
 	death_loop(data);
-	i = 0;
+	i = 0;printf("a\n");
 	while (i < data->philo_count)
-	{
+	{printf("c\n");
 		if (pthread_join(data->philos[i].th, NULL) != 0)
 			return (TH_JN);
 		i++;
-	}
+	}printf("b\n");
 	destroy_data_mutex(data);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 13:44:06 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 14:07:40 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ void	philo_think(t_philo *philo)
 }
 
 void	philo_sleep(t_philo *philo)
-{check_meals(philo);
+{
+	// check_meals(philo);
 	pthread_mutex_lock(&philo->data->check);
 	if (philo->data->stop == 0)
 		printf("%d %d is sleeping\n", actual_time(philo), philo->number);
 	pthread_mutex_unlock(&philo->data->check);
 	ft_usleep(philo->data->t_sleep);
-
+	check_meals(philo);
 }
 
 static void	grab_forks_even(t_philo *philo)
