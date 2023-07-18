@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 14:05:13 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 07:56:50 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 08:40:01 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	ft_usleep(int i)
 
 int	actual_time(t_philo *philo)
 {
-	return (get_time() - philo->data->go);
+	return (get_time() - philo->start_time);
 }

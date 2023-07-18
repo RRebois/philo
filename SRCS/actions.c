@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 07:56:26 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 10:06:43 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	philo_think(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->deat);
+	pthread_mutex_lock(&philo->data->death);
 	if (philo->data->stop == 0)
 	{
 		pthread_mutex_unlock(&philo->data->death);
@@ -28,38 +28,68 @@ void	philo_think(t_philo *philo)
 
 void	philo_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->deat);
+	pthread_mutex_lock(&philo->data->death);
 	if (philo->data->stop == 0)
 	{
 		pthread_mutex_lock(&philo->data->print);
 		printf("%d %d is sleeping\n", actual_time(philo), philo->number);
 		pthread_mutex_unlock(&philo->data->print);
 	}
-	ft_usleep(philo->data->t_sleep, philo);
+	ft_usleep(philo->data->t_sleep);
 	pthread_mutex_unlock(&philo->data->death);
+	check_meals(philo);
+}
+
+static void	grab_forks_even(t_philo *philo)
+{
+	if (pthread_mutex_lock(&philo->fork_l) == 0)
+	{
+		// pthread_mutex_lock(&philo->data->print);
+		// pthread_mutex_lock(&philo->data->death);
+		if (philo->data->stop == 0)
+		{
+			printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
+			if (pthread_mutex_lock(philo->fork_r) == 0)
+				printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
+		}
+		// pthread_mutex_unlock(&philo->data->death);
+		// pthread_mutex_unlock(&philo->data->print);
+	}
+	pthread_mutex_unlock(philo->fork_r);
+	pthread_mutex_unlock(&philo->fork_l);
+
+}
+
+static void	grab_forks_odd(t_philo *philo)
+{
+	if (pthread_mutex_lock(philo->fork_r) == 0)
+	{
+		// pthread_mutex_lock(&philo->data->print);
+		// pthread_mutex_lock(&philo->data->death);
+		if (philo->data->stop == 0)
+		{
+			printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
+			if (pthread_mutex_lock(&philo->fork_l) == 0)
+				printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
+		}
+		// pthread_mutex_unlock(&philo->data->death);
+		// pthread_mutex_unlock(&philo->data->print);
+	}
+	pthread_mutex_unlock(&philo->fork_l);
+	pthread_mutex_unlock(philo->fork_r);
 }
 
 void	philo_eat(t_philo *philo)
 {
-	int	i;
-
-	i = mate_number(philo);
-	if (pthread_mutex_lock(&philo->fork) == 0 && \
-	pthread_mutex_lock(&philo->data->philos[i].fork) == 0)
-	{
-		pthread_mutex_lock(&philo->data->print);
-		if (philo->data->stop == 0)
-		{
-			printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
-			printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
-			printf("%d %d is eating\n", actual_time(philo), philo->number);
-		}
-		pthread_mutex_unlock(&philo->data->print);
+		if (philo->number % 2 == 0)
+			grab_forks_even(philo);
+		else
+			grab_forks_odd(philo);
+		pthread_mutex_lock(&philo->data->food);
 		philo->last_meal = actual_time(philo);
 		philo->meals_eaten++;
 		ft_usleep(philo->data->t_eat);
-		pthread_mutex_unlock(&philo->data->philos[i].fork);
-		pthread_mutex_unlock(&philo->fork);
-	}
+		pthread_mutex_unlock(&philo->data->food);
+
 	philo_sleep(philo);
 }

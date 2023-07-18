@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 07:56:12 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 10:03:11 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_philo
 	int				last_meal;
 	long long		start_time;
 	pthread_t		th;
-	pthread_mutex_t	fork;
+	pthread_mutex_t	fork_l;
+	pthread_mutex_t	*fork_r;
 	struct s_data	*data;
 }				t_philo;
 
@@ -64,15 +65,17 @@ enum errors
 };
 
 /*	data.c	*/
-int			init_data(char **av, t_data *data);
+int	init_data(int ac, char **av, t_data *data);
 int	set_data(char **av, t_data *data);
 int			prepare_threads(t_data *data);
+int	philo_init(t_data *data);
 void		set_philo_data(t_data *data, int i, long long time);
 
 /*	utils.c	*/
 void		solo_philo(t_philo *philo);
 void		ft_bzero(void *s, size_t n);
 int			ft_atoi(const char *str);
+int			ft_isdigit(int c);
 
 /*	routine.c	*/
 void		*routine(void *philo_struct);

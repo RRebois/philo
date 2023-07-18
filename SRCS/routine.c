@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 07:50:38 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 07:56:47 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/18 10:03:58 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	check_meals(t_philo *philo)
 		philo->meals_eaten++;
 		pthread_mutex_unlock(&philo->data->food);
 	}
+	pthread_mutex_lock(&philo->data->death);
 	if (philo->data->food_count == philo->data->philo_count)
 		philo->data->stop = 1;
+	pthread_mutex_unlock(&philo->data->death);
 }
 
 void	*routine(void *philo_struct)
@@ -47,18 +49,7 @@ void	*routine(void *philo_struct)
 			return (pthread_mutex_unlock(&philo->data->death), NULL);
 		pthread_mutex_unlock(&philo->data->death);
 		philo_think(philo);
-		grab_forks(philo);
-		// philo_eat(philo);
-		// if (check_meals(philo) == 1)
-		// 	return (NULL);
+		philo_eat(philo);
 	}
 	return (NULL);
-}
-
-int	mate_number(t_philo *philo)
-{
-	if (philo->number < philo->data->philo_count)
-		return (philo->number);
-	else
-		return (0);
 }
