@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 15:09:44 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 13:49:27 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	init_data(int ac, char **av, t_data *data)
 
 int	set_data(char **av, t_data *data)
 {
+	pthread_mutex_init(&data->check, NULL);
+	pthread_mutex_init(&data->print, NULL);
 	data->philo_count = ft_atoi(av[1]);
 	data->t_die = ft_atoi(av[2]);
 	data->t_eat = ft_atoi(av[3]);
@@ -64,21 +66,22 @@ int	set_data(char **av, t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->philo_count);
 	if (data->philos == NULL)
 		return (MALLOC_ERR);
-	init_data_mutex(data);
 	return (SUCCESS);
 }
 
 void	set_philo_data(t_data *data, int i, long long time)
 {
+	ft_bzero(&data->philos[i], sizeof(t_philo));
 	data->philos[i].number = i + 1;
 	data->philos[i].p_die = data->t_die;
 	data->philos[i].data = data;
 	data->philos[i].max_meals = data->meals;
 	data->philos[i].start_time = time;
-	if (data->philos[i].number < data->philo_count)
-		data->philos[i].fork_r = &data->philos[i + 1].fork_l;
-	else if (data->philos[i].number == data->philo_count && data->philo_count != 1)
+	pthread_mutex_init(&data->philos[i].fork_l, NULL);
+	if (i == data->philo_count - 1)
 		data->philos[i].fork_r = &data->philos[0].fork_l;
+	else
+		data->philos[i].fork_r = &data->philos[i + 1].fork_l;
 }
 
 int	philo_init(t_data *data)
@@ -94,8 +97,9 @@ int	philo_init(t_data *data)
 		if (pthread_create(&data->philos[i].th, NULL, &routine, &data->philos[i]) != 0)
 			return (TH_CRT);
 		i++;
-	}
-	death_loop(data);
+	}printf("LAAAA\n");
+	// while (death_loop(data) == 0)
+	// 	continue ;
 	i = 0;
 	while (i < data->philo_count)
 	{
@@ -103,6 +107,6 @@ int	philo_init(t_data *data)
 			return (TH_JN);
 		i++;
 	}
-	destroy_data_mutex(data);
+	free_destroy_all(data);
 	return (SUCCESS);
 }

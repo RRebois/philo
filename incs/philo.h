@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 14:55:13 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 13:37:06 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_data
 	// pthread_mutex_t	start;
 	pthread_mutex_t	check;
 	// pthread_mutex_t	food;
-	// pthread_mutex_t	print;
+	pthread_mutex_t	print;
 	// pthread_mutex_t	death;
 }				t_data;
 
@@ -87,9 +87,9 @@ void		check_meals(t_philo *philo);
 int			mate_number(t_philo *philo);
 
 /*	actions.c	*/
-void		philo_think(t_philo *philo);
-void		philo_eat(t_philo *philo);
-void		philo_sleep(t_philo *philo);
+void		ft_write(t_philo *philo, char *s);
+void	grab_forks(t_philo *philo);
+void		philo_cycle(t_philo *philo);
 
 /*	time.c	*/
 long long	get_time(void);
@@ -98,9 +98,9 @@ int			actual_time(t_philo *philo);
 
 /*	death.c	*/
 void		check_death(t_data *data);
-void	death_loop(t_data *data);
-/*	mutex.c	*/
-void		init_data_mutex(t_data *data);
-void		destroy_data_mutex(t_data *data);
+int	death_loop(t_data *data);
+
+/*	free.c	*/
+void		free_destroy_all(t_data *data);
 
 #endif

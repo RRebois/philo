@@ -6,19 +6,19 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:41 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 15:10:42 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 13:38:49 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/philo.h"
 
-void	death_loop(t_data *data)
+int	death_loop(t_data *data)
 {
 	int	i;
 
 	pthread_mutex_lock(&data->check);
-	i = data->stop;
-	pthread_mutex_unlock(&data->check);
+	i = 0;
+	// pthread_mutex_unlock(&data->check);
 	while (i == 0)
 	{
 		check_death(data);
@@ -27,8 +27,9 @@ void	death_loop(t_data *data)
 // printf("i=%d\n", i);
 		pthread_mutex_unlock(&data->check);
 		if (i == 1)
-			return ;
+			return (i);
 	}
+	return (0);
 }
 
 // int	check_death(t_data *data)
@@ -77,7 +78,7 @@ void	check_death(t_data *data)
 		if (actual_time(&data->philos[i]) - data->philos[i].last_meal >= data->philos[i].p_die)
 		{
 			if (data->stop == 0)
-				printf("%d %d died\n", actual_time(&data->philos[i]), data->philos[i].number);
+				ft_write(&data->philos[i], " died");
 			data->stop = 1;
 // printf("ii=%d\n", data->stop);
 			pthread_mutex_unlock(&data->check);

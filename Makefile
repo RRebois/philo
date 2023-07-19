@@ -5,7 +5,7 @@ CC			=	cc
 
 RM			=	rm -rf
 
-FLAGS		=	-Wall -Wextra -Werror -pthread -fsanitize=thread -O2 -g
+FLAGS		=	-Wall -Wextra -Werror -pthread #-fsanitize=thread -O2 -g
 
 HEADER		=	philo.h
 
@@ -25,7 +25,7 @@ LST_SRCS		=	main.c \
 					routine.c \
 					time.c \
 					death.c \
-					mutex.c \
+					free.c \
 					actions.c
 
 LST_OBJS	=	$(LST_SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:12:37 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/18 15:03:35 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/19 13:35:55 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isdigit(int c)
 {
-	if ((c >= 48 && c <= 57) || c == 43 || c == 45)
+	if ((c >= 48 && c <= 57) || c == 45 || c == 43)
 		return (1);
 	return (0);
 }
@@ -22,13 +22,11 @@ int	ft_isdigit(int c)
 void	solo_philo(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->fork_l);
-	printf("%d %d has taken a fork\n", actual_time(philo), philo->number);
+	ft_write(philo, " has taken a fork");
 	pthread_mutex_unlock(&philo->fork_l);
 	ft_usleep(philo->data->t_die);
-	// printf("%d %d died\n", actual_time(&philo->data->philos[0]), philo->data->philos[0].number);
-	pthread_mutex_lock(&philo->data->check);
-	philo->data->stop = 1;
-	pthread_mutex_unlock(&philo->data->check);
+	check_death(philo->data);
+	return ;
 }
 
 static void	ft_check(long value, long sign)
