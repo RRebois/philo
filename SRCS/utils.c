@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:12:37 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/19 13:35:55 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 09:48:26 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,16 @@ void	solo_philo(t_philo *philo)
 	ft_write(philo, " has taken a fork");
 	pthread_mutex_unlock(&philo->fork_l);
 	ft_usleep(philo->data->t_die);
-	check_death(philo->data);
+	// check_death(philo->data);
 	return ;
 }
 
 static void	ft_check(long value, long sign)
 {
 	if (value * sign > 0 && value * sign > 2147483647)
-	{
-		exit (0);
-	}
+		exit (-1);
 	else if (value * sign < 0 && value * sign < -2147483648)
-	{
 		exit (0);
-	}
 }
 
 int	ft_atoi(const char *str)

@@ -5,7 +5,7 @@ CC			=	cc
 
 RM			=	rm -rf
 
-FLAGS		=	-Wall -Wextra -Werror -pthread #-fsanitize=thread -O2 -g
+FLAGS		=	-Wall -Wextra -Werror -pthread -fsanitize=thread -O2 -g
 
 HEADER		=	philo.h
 

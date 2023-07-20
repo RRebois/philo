@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/19 13:37:06 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 11:14:07 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int			ft_isdigit(int c);
 /*	routine.c	*/
 void		*routine(void *philo_struct);
 void		routine_loop(t_philo *philo);
-void		check_meals(t_philo *philo);
+int		check_meals(t_data *data);
 int			mate_number(t_philo *philo);
 
 /*	actions.c	*/
@@ -97,7 +97,7 @@ void		ft_usleep(int i);
 int			actual_time(t_philo *philo);
 
 /*	death.c	*/
-void		check_death(t_data *data);
+int		check_death(t_data *data);
 int	death_loop(t_data *data);
 
 /*	free.c	*/

@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/19 13:49:27 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 11:12:47 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ int	init_data(int ac, char **av, t_data *data)
 
 int	set_data(char **av, t_data *data)
 {
+	int			i;
+
+	i = 0;
 	pthread_mutex_init(&data->check, NULL);
 	pthread_mutex_init(&data->print, NULL);
 	data->philo_count = ft_atoi(av[1]);
@@ -66,6 +69,11 @@ int	set_data(char **av, t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->philo_count);
 	if (data->philos == NULL)
 		return (MALLOC_ERR);
+	while (i < data->philo_count)
+	{
+		pthread_mutex_init(&data->philos[i].fork_l, NULL);
+		i++;
+	}
 	return (SUCCESS);
 }
 
@@ -75,9 +83,8 @@ void	set_philo_data(t_data *data, int i, long long time)
 	data->philos[i].number = i + 1;
 	data->philos[i].p_die = data->t_die;
 	data->philos[i].data = data;
-	data->philos[i].max_meals = data->meals;
 	data->philos[i].start_time = time;
-	pthread_mutex_init(&data->philos[i].fork_l, NULL);
+	data->philos[i].max_meals = data->meals;
 	if (i == data->philo_count - 1)
 		data->philos[i].fork_r = &data->philos[0].fork_l;
 	else
@@ -89,17 +96,19 @@ int	philo_init(t_data *data)
 	int			i;
 	long long	time;
 
-	i = 0;
+	i = -1;
 	time = get_time();
+	while (++i < data->philo_count)
+		set_philo_data(data, i, time);
+	i = 0;
 	while (i < data->philo_count)
 	{
-		set_philo_data(data, i, time);
 		if (pthread_create(&data->philos[i].th, NULL, &routine, &data->philos[i]) != 0)
 			return (TH_CRT);
 		i++;
-	}printf("LAAAA\n");
-	// while (death_loop(data) == 0)
-	// 	continue ;
+	}
+	while (check_death(data) == 0 && check_meals(data) == 0)
+		continue ;
 	i = 0;
 	while (i < data->philo_count)
 	{

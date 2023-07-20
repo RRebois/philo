@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/19 13:38:59 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 11:25:25 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,50 @@
 
 void	ft_write(t_philo *philo, char *s)
 {
-	pthread_mutex_lock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->check);
 	if (philo->data->stop == 0)
 	{
-		pthread_mutex_unlock(&philo->data->check);
+		pthread_mutex_lock(&philo->data->print);
 		printf("%d %d %s\n", actual_time(philo), philo->number, s);
-		return ;
+		pthread_mutex_unlock(&philo->data->print);
 	}
 	pthread_mutex_unlock(&philo->data->check);
-	pthread_mutex_unlock(&philo->data->print);
 }
 
 void	grab_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->fork_l);
-	ft_write(philo, " has taken a fork");
-	pthread_mutex_lock(philo->fork_r);
-	ft_write(philo, " has taken a fork");
+	if (philo->number % 2 == 0)
+	{
+		if (pthread_mutex_lock(&philo->fork_l) == 0)
+		{
+			ft_write(philo, " has taken a fork");
+			if (pthread_mutex_lock(philo->fork_r) == 0)
+				ft_write(philo, " has taken a fork");
+		}
+	}
+	else
+	{
+		if (pthread_mutex_lock(philo->fork_r) == 0)
+		{
+			ft_write(philo, " has taken a fork");
+			if (pthread_mutex_lock(&philo->fork_l) == 0)
+				ft_write(philo, " has taken a fork");
+		}
+	}
 }
 
 void	philo_cycle(t_philo *philo)
 {
 	ft_write(philo, " is eating");
+	ft_usleep(philo->data->t_eat);
 	pthread_mutex_lock(&philo->data->check);
 	philo->last_meal = actual_time(philo);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->check);
-	ft_usleep(philo->data->t_eat);
+	// ft_usleep(philo->data->t_eat);
 	pthread_mutex_unlock(philo->fork_r);
 	pthread_mutex_unlock(&philo->fork_l);
+	// check_meals(philo->data);
 	ft_write(philo, " is sleeping");
 	ft_usleep(philo->data->t_sleep);
-	ft_write(philo, " is thinking");
-	// if (philo->number % 2 == 0)
-	// {
-	// 	pthread_mutex_unlock(&philo->fork_l);
-	// 	pthread_mutex_unlock(philo->fork_r);
-	// }
-	// else
-	// {
-	// 	pthread_mutex_unlock(philo->fork_r);
-	// 	pthread_mutex_unlock(&philo->fork_l);
-	// }
-
 }
