@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/20 13:26:33 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 15:06:28 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ typedef struct s_data
 	int				meals;
 	t_philo			*philos;
 	int				food_count;
-	int				go;
+	long long		go;
 	int				stop;
-	// pthread_mutex_t	start;
+	pthread_mutex_t	start;
 	pthread_mutex_t	check;
 	// pthread_mutex_t	food;
 	pthread_mutex_t	print;
@@ -72,7 +72,7 @@ int	init_data(int ac, char **av, t_data *data);
 int	set_data(char **av, t_data *data);
 int			prepare_threads(t_data *data);
 int	philo_init(t_data *data);
-void		set_philo_data(t_data *data, int i, long long time);
+void		set_philo_data(t_data *data, int i);
 
 /*	utils.c	*/
 void		solo_philo(t_philo *philo);

@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 07:50:38 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/20 13:29:51 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/20 17:26:07 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,35 @@ int	check_stop(t_philo *philo)
 void	*routine(void *philo_struct)
 {
 	t_philo	*philo;
-
+// printf("routine\n");
 	philo = (t_philo *)philo_struct;
+	pthread_mutex_lock(&philo->data->start);
+	pthread_mutex_unlock(&philo->data->start);
+	// pthread_mutex_lock(&philo->data->start);
+	// philo->last_meal = get_time() - philo->data->go;
+	// pthread_mutex_unlock(&philo->data->start);
 	if (philo->data->philo_count == 1)
 	{
 		solo_philo(philo);
 		return (NULL);
 	}
-	if (philo->number % 2 == 0)
-		usleep(philo->data->t_eat / 10);
+	// if (philo->data->philo_count % 2 != 0 && philo->number == philo->data->philo_count)
+	// 	usleep(philo->data->t_eat);
+	// if (philo->number % 2 != 0)
+	// 	usleep(philo->data->t_eat);
+	// ft_usleep((1 * philo->number) % 2);
 	while (check_stop(philo) == 0)
 	{
-		// if (philo->number % 2 != 0)
-		// 	usleep(philo->data->t_eat / 10);
+		ft_usleep((1 * philo->number) % 2);
+		// if (philo->data->philo_count % 2 != 0 && philo->number == philo->data->philo_count)
+			// ft_usleep(philo->data->t_eat);
+		// ft_usleep(10);
+		// ft_usleep(1 * philo->number);
 		ft_write(philo, " is thinking");
+		// ft_usleep(10);
 		grab_forks(philo);
 		philo_cycle(philo);
+		//si t2e != t2s maybe ft_usleep de la diff
 	}
 	return (NULL);
 }

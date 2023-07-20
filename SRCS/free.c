@@ -25,6 +25,7 @@ void	free_destroy_all(t_data *data)
 	}
 	pthread_mutex_destroy(&data->check);
 	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->start);
 	free(data->philos);
 
 }
