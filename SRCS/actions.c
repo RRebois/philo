@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 13:43:15 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/20 17:05:25 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 08:31:52 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,23 @@ void	grab_forks(t_philo *philo)
 	}
 }
 
+// void	grab_forks(t_philo *philo)
+// {
+// 	if (philo->fork_av == 1)
+// 	{
+// 		pthread_mutex_lock(&philo->fork_l);
+// 		philo->fork_av == 0;
+// 		pthread_mutex_unlock(&philo->fork_l);
+
+// 	}
+// }
+
 void	philo_cycle(t_philo *philo)
 {
 	ft_write(philo, " is eating");
 	// ft_usleep(philo->data->t_eat);
 	pthread_mutex_lock(&philo->data->start);
-	philo->last_meal = get_time();
+	philo->last_meal = get_time() - philo->data->go;
 	// philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->start);
 	ft_usleep(philo->data->t_eat);

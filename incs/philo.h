@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 11:46:01 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/20 15:06:28 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 08:19:58 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_philo
 	int				last_meal;
 	long long		start_time;
 	int				p_die;
-	int				finish;
+	int				fork_av;
 	pthread_t		th;
 	pthread_mutex_t	fork_l;
 	pthread_mutex_t	*fork_r;

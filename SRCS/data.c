@@ -6,7 +6,7 @@
 /*   By: rrebois <rrebois@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 08:09:43 by rrebois           #+#    #+#             */
-/*   Updated: 2023/07/20 17:03:07 by rrebois          ###   ########lyon.fr   */
+/*   Updated: 2023/07/24 08:20:00 by rrebois          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,10 @@ void	set_philo_data(t_data *data, int i)
 {
 	ft_bzero(&data->philos[i], sizeof(t_philo));
 	data->philos[i].number = i + 1;
+	data->philos[i].fork_av = 1;
 	data->philos[i].p_die = data->t_die;
 	data->philos[i].data = data;
-	// data->philos[i].last_meal = 0; //
+	// data->philos[i].last_meal = 0;
 	data->philos[i].max_meals = data->meals;
 	if (i == data->philo_count - 1)
 		data->philos[i].fork_r = &data->philos[0].fork_l;
